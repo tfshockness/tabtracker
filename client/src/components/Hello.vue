@@ -1,53 +1,100 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+      <v-container>
+          <h4>Create your account</h4>
+          <v-form v-model="valid">
+              <v-text-field
+                      label="Name"
+                      v-model="name"
+                      :rules="nameRules"
+                      :counter="50"
+                      required
+              ></v-text-field>
+              <v-text-field
+                      label="E-mail Address"
+                      v-model="email"
+                      :rules="emailRules"
+                      required
+              ></v-text-field>
+              <v-text-field
+                      label="Password"
+                      type="password"
+                      v-model="password"
+                      :rules="passwordRules"
+                      required
+              ></v-text-field>
+              <v-text-field
+                      label="Confirm Password"
+                      type="password"
+                      v-model="confPassword"
+                      :rules="passwordRules"
+                      required
+              ></v-text-field>
+              <v-btn dark @click="register">Register</v-btn>
+          </v-form>
+      </v-container>
   </div>
 </template>
 
 <script>
+    import axios from '../services/Api'
+
+
 export default {
   name: 'hello',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+    data () {
+        return {
+            valid: false,
+            name: '',
+            nameRules: [
+                (v) => !!v || 'Name is required',
+                (v) => v.length <= 50 || 'Name must be less than 10 characters'
+            ],
+            email: '',
+            emailRules: [
+                (v) => !!v || 'E-mail is required',
+                (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+            ],
+            password: '',
+            confPassword: '',
+            passwordRules:[
+                (v) => !!v || 'Password is required',
+                () => this.password === this.confPassword || 'Password does not match'
+            ]
+        }
+    },
+    methods:{
+//      async register(){
+//          try{
+//              await Api().post('/testing', {
+//                  message: 'Errors?'
+//              })
+//          }catch(error){
+//            console.log(error);
+//          }
+//
+//      }
+
+        register(){
+//            axios().get('/msg')
+//                .then(function(response){
+//                    console.log(response)
+//                })
+            axios().post('/testing', {
+                msg: 'How do I know if works?'
+            })
+                .then(function(response){
+                    console.log(response);
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+        }
+
     }
-  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
