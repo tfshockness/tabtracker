@@ -27,11 +27,3 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::post('/testing', function($request){
-    return $request;
-});
-
-Route::get('/msg', function(){
-    return 'this is a get request';
-});

@@ -27,7 +27,7 @@
                       label="Confirm Password"
                       type="password"
                       v-model="confPassword"
-                      :rules="passwordRules"
+                      :rules="confPassRules"
                       required
               ></v-text-field>
               <v-btn dark @click="register">Register</v-btn>
@@ -59,29 +59,21 @@ export default {
             confPassword: '',
             passwordRules:[
                 (v) => !!v || 'Password is required',
+            ],
+            confPassRules:[
                 () => this.password === this.confPassword || 'Password does not match'
             ]
         }
     },
     methods:{
-//      async register(){
-//          try{
-//              await Api().post('/testing', {
-//                  message: 'Errors?'
-//              })
-//          }catch(error){
-//            console.log(error);
-//          }
-//
-//      }
+
 
         register(){
-//            axios().get('/msg')
-//                .then(function(response){
-//                    console.log(response)
-//                })
-            axios().post('/testing', {
-                msg: 'How do I know if works?'
+
+            axios().post('/api/testing', {
+                name: this.name,
+                email: this.email,
+                password: this.password
             })
                 .then(function(response){
                     console.log(response);
